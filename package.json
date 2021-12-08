@@ -1,0 +1,26 @@
+{
+  "name": "Test_1",
+  "version": "1.0.0",
+  "description": "repositoryNumberOne",
+  "main": "URL_Projekt.js",
+  "scripts": {
+    "devStart": "nodemon URL_Projekt.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ghaith1998/Test_1.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ghaith1998/Test_1/issues"
+  },
+  "homepage": "https://github.com/Ghaith1998/Test_1#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
