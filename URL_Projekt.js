@@ -1,6 +1,20 @@
 const express = require ("express")
+const res = require("express/lib/response")
 const app = express()
+
+// Das gehört zum Path teil unten
+const path = require("path")
+
+// so dass ich auf req von der Seite zu greiffen kann
 app.use(express.urlencoded({extended : false}))
+
+/**
+ In den nächsten drei zeilen werden wir eine Seite zurück liefern. 
+ Dafür müssen wir das folgende Code schreiben 
+ */
+app.set("view engine", "ejs") // Definieren wir den Viewer
+app.set("views",path.join(__dirname, "views"))  //Das Path des viewses ordner (views)
+
 
 
 const Company = [
@@ -15,7 +29,7 @@ const Company = [
 
 app.get("/",(req,res) => {              // Begrüßung Seite
     console.log("User is online")
-    res.send("<h1>Wellcome to our Company</h1> " + " \n" + `Listening on port ${port}`)
+    res.render("home",{port})       
 })
 
 
@@ -33,29 +47,37 @@ app.get("/api/myUsers/:id", (req, res) => {             // User mit bestimmten I
 })
 
 
-app.get("/api/addUser", (req, res) => {                 //addUser Seite get()
-    res.send(
-        `
-        <h1>hallo pleasse enter your name</h1>
-        <form action="/api/result" method="POST">
-            <input type= "text" name ="name">
-            <button>Submit</button>
-            </form>
+function getStatus (req, res, next) {       // Middleware function
+    usOnline = true
+    if (usOnline === true){
+        next()
+    }else {res.send("you are not online")}
 
-        `
-    )
+}
+
+app.get("/api/addUser",getStatus, (req, res) => {                 //addUser Seite get()
+    res.render("addUserPage")                                   // mit render liefern wir eine Site zurück
 })
 
 
-app.post("/api/result", (req, res) => {             // Das neue User Dataien nachdem addUser
+app.post("/api/result", (req, res) => {             // zeigen Das neue User Dataien nachdem addUser
+    
     const newUser = {
         id : Company.length + 1,
         name : req.body.name
     }
-    Company.push(newUser)
-    res.send(newUser)
+    if (newUser.name.length <= 3){
+        res.send("The name is too short")
+    }else {
+        Company.push(newUser)
+        res.send(newUser)
+    }
+
 })
 
+app.get("/api/allUsers", (req, res) => {
+    res.send(Company)
+})
 
 const port = process.env.PORT || 3000;              // Das Port einsetzen entweder automatisch oder auf 3000
 app.listen(port, () => `Listening on port ${port}`)
