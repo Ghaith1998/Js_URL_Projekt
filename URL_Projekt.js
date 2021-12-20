@@ -81,5 +81,3 @@ app.get("/api/allUsers", (req, res) => {
 
 const port = process.env.PORT || 3000;              // Das Port einsetzen entweder automatisch oder auf 3000
 app.listen(port, () => `Listening on port ${port}`)
-
-// Test1
