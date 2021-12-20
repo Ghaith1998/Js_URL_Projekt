@@ -26,6 +26,8 @@ const Company = [
     {id : 6, name: "David"},
     {id : 7, name: "Lois"},
 ]
+const URlz = []
+
 
 app.get("/",(req,res) => {              // Begrüßung Seite
     console.log("User is online")
@@ -60,19 +62,33 @@ app.get("/api/addUser",getStatus, (req, res) => {                 //addUser Seit
 })
 
 
-app.post("/api/result", (req, res) => {             // zeigen Das neue User Dataien nachdem addUser
+// app.post("/api/result", (req, res) => {             // zeigen Das neue User Dataien nachdem addUser
     
-    const newUser = {
-        id : Company.length + 1,
-        name : req.body.name
-    }
-    if (newUser.name.length <= 3){
-        res.send("The name is too short")
-    }else {
-        Company.push(newUser)
-        res.send(newUser)
-    }
+//     const newUser = {
+//         id : Company.length + 1,
+//         name : req.body.name
+//     }
+//     if (newUser.name.length <= 3){
+//         res.send("The name is too short")
+//     }else {
+//         Company.push(newUser)
+//         res.send(newUser)
+//     }
 
+// })
+app.post("/api/result/url", (req, res) => {
+    const newName = {
+        realName : req.body.name,
+        shortName : "ggyxqw23"
+    }
+    URlz.push(newName)
+    res.send(`
+    <h1>hallo pleasse enter your name</h1>
+    <form>
+    <p>This is your short link <p/>
+    <a href="${newName.realName}"> ${newName.shortName}<a/>
+    </form>
+    `)
 })
 
 app.get("/api/allUsers", (req, res) => {
